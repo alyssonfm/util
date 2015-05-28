@@ -9,7 +9,7 @@ HOW TO EXECUTE?
 You have to execute inside the project folder, and then it will 
 search inside all the sub-folders archives with these extensions
 and calculate the numbers of lines of code (LOC), preconditions
-(PRE), postconditions (POST) and invariants (INV).
+(PRE), postconditions (POST), invariants (INV), and constraints (CONS).
 '''
 
 import os
@@ -19,11 +19,13 @@ from os.path import isfile, join
 pos = 0
 pre = 0
 inv = 0
-ENSURES = "@ ensures"
-REQUIRES = "@ requires"
-PRE = "@ pre"
-POS = "@ post"
-INVAR = "@ invariant"
+cons = 0
+ENSURES = "ensures"
+REQUIRES = "requires"
+PRE = "pre"
+POS = "post"
+INVAR = "invariant"
+CONST = "constraint"
 
 mypath = os.getcwd()
 
@@ -34,6 +36,7 @@ def loc(fname):
 	global pos
 	global pre
 	global inv
+	global cons
 	
 	with open(fname) as f:
 		content = f.readlines()
@@ -48,6 +51,9 @@ def loc(fname):
 			print content[i]
 		elif INVAR in content[i]:
 			inv += 1
+			print content[i]
+		elif CONST in content[i]:
+			cons += 1
 			print content[i]
 		
 		if content[i].strip()[:2] == "//":
@@ -77,5 +83,6 @@ print "LOC: " + str(total_loc(mypath))
 print "PRE: "+ str(pre)
 print "POST: "+ str(pos)
 print "INV: "+ str(inv)
+print "CONS: "+ str(cons)
 
 raw_input()
